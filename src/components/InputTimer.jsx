@@ -1,17 +1,30 @@
 import React from "react";
-import Button from "./Button";
+import Button from "../widgets/Button";
+import Input from "../widgets/Input";
 
-const InputTimer = ({ handleInput, handleStart }) => {
+const InputTimer = ({
+  handleInput,
+  handleStart,
+  removeTimer,
+  id,
+}) => {
   return (
     <>
       <div className="input-box-container">
         <div className="input-box">
-          <input placeholder="HH" id="hours" onChange={handleInput} />
-          <input placeholder="MM" id="minutes" onChange={handleInput} />
-          <input placeholder="SS" id="seconds" onChange={handleInput} />
+          <Input placeholder="HH" id="hours" onChange={handleInput} />
+          <Input placeholder="MM" id="minutes" onChange={handleInput} />
+          <Input placeholder="SS" id="seconds" onChange={handleInput} />
         </div>
       </div>
-      <Button title="Start" onClick={handleStart} />
+      <div className="action-button">
+        <Button title="Start" onClick={handleStart} />
+        <Button
+          className="timer-button"
+          title="Remove Timer"
+          onClick={() => removeTimer(id)}
+        />
+      </div>
     </>
   );
 };

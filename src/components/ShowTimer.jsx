@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
-import Button from "./Button";
+import React from "react";
+import Button from "../widgets/Button"
 
 const ShowTimer = (props) => {
   const { timeData, isPause, handleReset, handlePause, handleResume } = props;
 
   const { hours, minutes, seconds } = timeData;
-
-  useEffect(() => {
-    document.title = `Hour:${hours}: Minute:${minutes} Second:${seconds}`;
-  }, [hours, minutes, seconds, timeData]);
 
   return (
     <div>
@@ -21,15 +17,13 @@ const ShowTimer = (props) => {
           <div>{seconds < 10 ? `0${seconds}` : seconds}</div>
         </div>
         <div className="action-button">
-          {hours !== 0 && minutes !== 0 && seconds !== 0 && (
-            <>
-              {isPause ? (
-                <Button title="Resume" onClick={handleResume} />
-              ) : (
-                <Button title="Pause" onClick={handlePause} />
-              )}
-            </>
-          )}
+          <>
+            {isPause ? (
+              <Button title="Resume" onClick={handleResume} />
+            ) : (
+              <Button title="Pause" onClick={handlePause} />
+            )}
+          </>
           <Button title="Reset" onClick={handleReset} />
         </div>
       </div>

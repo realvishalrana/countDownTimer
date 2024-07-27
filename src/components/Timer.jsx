@@ -3,20 +3,21 @@ import useTimer from "../hooks/useTimer";
 import InputTimer from "./InputTimer";
 import ShowTimer from "./ShowTimer";
 
-const Timer = () => {
+const Timer = ({ id, removeTimer }) => {
   const props = useTimer();
 
-  const { isStart, handleStart, handleInput } = props;
+  const { isStart, isDone } = props;
 
   return (
-    <>
-      <h1>Countdown Timer</h1>
+    <div className="timer">
+      <h2>Timer {id}</h2>
+      {isDone && <div className="message">Timer is done!</div>}
       {isStart ? (
         <ShowTimer {...props} />
       ) : (
-        <InputTimer handleInput={handleInput} handleStart={handleStart} />
+        <InputTimer id={id} removeTimer={removeTimer} {...props} />
       )}
-    </>
+    </div>
   );
 };
 

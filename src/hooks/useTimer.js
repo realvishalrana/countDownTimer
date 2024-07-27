@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 const initialValues = {
   hours: 0,
@@ -10,6 +10,7 @@ const useTimer = () => {
   const [isStart, setIsStart] = useState(false);
   const [isPause, setIsPause] = useState(false);
   const [timeData, setTimeData] = useState(initialValues);
+  const [isDone, setIsDone] = useState(false);
   const timerIdRef = useRef(null);
 
   const { hours, minutes, seconds } = timeData;
@@ -20,6 +21,8 @@ const useTimer = () => {
       return;
     }
     setIsStart(true);
+    setIsPause(false);
+    setIsDone(false); 
   };
 
   const handleReset = () => {
@@ -28,7 +31,7 @@ const useTimer = () => {
     setTimeData(initialValues);
     clearInterval(timerIdRef.current);
     timerIdRef.current = null;
-   
+    setIsDone(false); 
   };
 
   const handleInput = (e) => {
@@ -36,7 +39,7 @@ const useTimer = () => {
 
     setTimeData((prev) => ({
       ...prev,
-      [id]: value,
+      [id]: Number(value),
     }));
   };
 
@@ -84,12 +87,18 @@ const useTimer = () => {
     };
   }, [isStart, isPause, runTimer]);
 
+  useEffect(() => {
+    if (isStart && timeData.hours === 0 && timeData.minutes === 0 && timeData.seconds === 0) {
+      setIsDone(true);
+      setIsStart(false);
+    }
+  }, [isStart, timeData]);
+
   return {
     isStart,
-    setIsStart,
-    timeData,
     isPause,
-    setTimeData,
+    isDone,
+    timeData,
     handleStart,
     handleReset,
     handleInput,
